@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row pl-5 pr-5">
+    <form class="login-form" name="loginform" ng-submit="signup(user)">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" ng-model="user.name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" ng-model="user.email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" ng-model="user.password">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Confirm Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" ng-model="user.confirmpasword">
+      </div>
+      <button type="submit" class="btn btn-primary" ng-disabled="loginform.name.$dirty && loginform.name.$invalid || loginform.password.$dirty && loginform.password.$invalid ||
+  loginform.email.$dirty && loginform.email.$invalid">signup</button>
+    </form>
+  </div>
+</div>
