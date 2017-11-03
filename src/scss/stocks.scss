@@ -29,12 +29,12 @@
     /*background-color: #34445D;*/
     content: "";
     height: 160px;
-    /*height: 11.25rem;*/
     position: absolute;
     width: 100%;
  }
 
  .secondary-navbar{
+
     width: 100%;
  	top:55px; 
  	background: #3f51b5;
@@ -71,6 +71,9 @@
 		 	}
 	 	}
  	}
+ }
+
+.secondary-navbar.ng-hide{
  }
 
  .trending-item{
@@ -262,7 +265,7 @@
 	padding: 10px 20px 0px 20px;
 	box-shadow: 0 0px 8px 2px rgba(0,0,0,.2);
 	border-radius: 6px;
-	margin-top: 10px;
+	margin-bottom: 10px;
 	.head{
 		color: #ccc;
 		i{
@@ -295,6 +298,7 @@
 	input{
 		-webkit-transition: width .4s; /* For Safari 3.1 to 6.0 */
     	transition: width .4s ease-in;
+    	border-radius: 20px;
 		width: 50% !important;
 		&:focus{
 			width: 100% !important;

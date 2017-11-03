@@ -25,8 +25,8 @@
     </div>
 </div>
 <div class="navbar-base">
-    <div class="container" style="padding: 20px 0px 0px">
-        <div class="row">
+    <div style="padding-top: 20px">
+        <div class="row" style="margin: 0px">
             <div class="col-md-3 col-lg-3 col-sm-12">
                 <div class="side-bar-box" ng-show="trendingCompanies.length>0">
                     <div class="row head"> 
@@ -45,19 +45,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="side-bar-box" ng-show="trendingCompanies.length>0">
+                <div class="side-bar-box" ng-show="showWatchlist">
                     <div class="row head"> 
                         <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Trending</span>
+                        <span>WatchList</span>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 trending-item" ng-repeat="item in trendingCompanies" title="{{item.name}}" ui-sref="stocks({'code': item.code})">
+                        <div class="col-md-12 col-sm-12 trending-item" ng-repeat="item in watchList" title="{{item.name}}" ui-sref="stocks({'code': item.code})">
                             <div ng-class="{'value-up': item.stock.isPositive, 'value-down': !item.stock.isPositive}">
                                 <div class="stock-code">
                                     <span class="code">{{item.code}}</span>
                                     <span class="current">{{item.stock.close}}</span>
-                                    <span style="float: right">{{item.stock.change}}&nbsp;({{item.stock.percentageChange}}&nbsp;%)</span>
+                                    <span style="float: right;">{{item.stock.change}}&nbsp;({{item.stock.percentageChange}}&nbsp;%)</span>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-bar-box" style="padding: 10px">
+                    <div class="head"> 
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span>Latest News</span>
+                        <a class="pull-right" href="/news">View More</a>
+                    </div>
+                    <div>
+                        <div title="Novartis Makes a Deal That Should Go Down Easy" style="display: flex;padding: 10px 0px; border-bottom: 1px solid #ccc;">
+                            <div class="LatestNewsEvents__thumbnail___hw8JG">
+                                <img height="105" src="http://d39b8uktah50ny.cloudfront.net/attachments/64f3697e40d233b7825536e5fced5ea3655b362b/store/limit/10000/10000/297698b30a39e37fa0fcc197065c023a8a8efeef6ab1da254ddc7cfa522a/31DB-DRUGVIEWS1-facebookJumbo.jpg" width="170" style="    border-radius: 3px">
+                            </div>
+                            <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: space-between; overflow: hidden">
+                                <h3 style="font-size: 16px; font-weight: 700; line-height: 1.12; margin: 0;">{{"NovartisNovartisNovartis Makes a Deal That Sho..." | limitTo: 30 }}</h3>
+                                <p style="    font-size: 12px; margin: 0px;color: #ccc">20 hours ago – nytimes.com</p>
                             </div>
                         </div>
                     </div>
@@ -66,7 +84,7 @@
             <!-- <div class="feed-content col-md-8 col-lg-8 col-sm-12" style="height: calc(100vh - 80px);background: #fff;"> -->
             <div class="feed-content col-md-6 col-lg-6 col-sm-12">
                 <div id="feedsList" class="list-group feed-list-group" ng-show="feedsList.length > 0">
-                    <div class="m-list list-group-item stock-item" ng-repeat="feed in feedsList track by $index" ui-sref="stocks({'code': feed.code})" style="box-shadow: 0 2px 8px 0 rgba(0,0,0,.2);border-radius: 4px;">
+                    <div class="m-list list-group-item stock-item" ng-repeat="feed in feedsList track by $index" ui-sref="stocks({'code': feed.code})" style="box-shadow: 0 2px 8px 0 rgba(0,0,0,.2);">
                         <div ng-class="{'value-up': feed.stock.isPositive, 'value-down': !feed.stock.isPositive}" class="left-side">
                             <span class="stock-name">
                                 {{feed.name}}
@@ -88,7 +106,7 @@
                                 <i class="fa fa-users" aria-hidden="true"></i>
                                 10  Watchers
                             </div>
-                            <button type="button" class="btn btn-danger watch">Watch</button>
+                            <button type="button" class="btn btn-danger watch" ng-click="addtoWathclist(feed)">Watch</button>
                         </div>
                     </div>
                     <div class="row m-list" ng-show="isSubmitInProgress">

@@ -286,7 +286,6 @@ h1, h2, h3, h4, h5, h6 {
   /*background-color: #34445D;*/
   content: "";
   height: 160px;
-  /*height: 11.25rem;*/
   position: absolute;
   width: 100%; }
 
@@ -463,7 +462,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px 20px 0px 20px;
   box-shadow: 0 0px 8px 2px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
-  margin-top: 10px; }
+  margin-bottom: 10px; }
   .side-bar-box .head {
     color: #ccc; }
     .side-bar-box .head i {
@@ -493,6 +492,7 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-transition: width .4s;
     /* For Safari 3.1 to 6.0 */
     transition: width .4s ease-in;
+    border-radius: 20px;
     width: 50% !important; }
     .searchbar input:focus {
       width: 100% !important; }

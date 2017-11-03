@@ -7,6 +7,15 @@
          'ui.router',
          'toaster'
     ]);
+
+    var API_ENDPOINT = "http://aahhostocks.dev:5000/api/v1";
+
+    var getTld = location.hostname.split('.').reverse()[0];
+
+    if (getTld === 'com') {
+        API_ENDPOINT = "http://noodlestock.com:5000/api/v1";
+    }
+
     DDT.config(["$compileProvider", "$stateProvider", "$locationProvider", '$httpProvider', function ($compileProvider, $stateProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
 
@@ -86,9 +95,9 @@
 
     DDT.factory("ddtServices", ["$http", "$q", function ($http, $q) {
 
-        var API_ENDPOINT = "http://aahhostocks.dev:5000/api/v1";
 
-        var ajaxCall = function (URL, METHOD, DATA) {
+
+                var ajaxCall = function (URL, METHOD, DATA) {
             var deferred = $q.defer();
             $http({
                 url: URL,
@@ -161,6 +170,21 @@
                 var URL = API_ENDPOINT + '/companies/trending';
                 var METHOD = 'GET';
                 return ajaxCall(URL, METHOD, undefined);
+            },
+            getWatchlist: function(){
+                var URL = API_ENDPOINT + '/users/watchlist';
+                var METHOD = 'GET';
+                return ajaxCall(URL, METHOD, undefined);
+            },
+            addToWatchlist: function(id){
+                var URL = API_ENDPOINT + '/companies/' + id + '/watchlist';
+                var METHOD = 'POST';
+                return ajaxCall(URL, METHOD, undefined);
+            },
+            deleteWatchlistItem: function(code){
+                var URL = API_ENDPOINT + '/companies/' + id + '/watchlist';
+                var METHOD = 'DELETE';
+                return ajaxCall(URL, METHOD, data);
             }
         }
     }]);
@@ -192,12 +216,14 @@
 
                 ddtServices.login(user).then(function(response) {
                     $scope.submitInProgress = false;
-                        $window.localStorage.token = response.data.token;
-                        $window.localStorage.user = JSON.stringify(response.data);
-                        $rootScope.userObj = response.data;
-                        $rootScope.iflogin=true;
-                        $state.go('feeds');
-                        toaster.pop('success', "logged in");
+                    $scope.user = {};
+                    $window.localStorage.token = response.data.token;
+                    $window.localStorage.user = JSON.stringify(response.data);
+                    $rootScope.userObj = response.data;
+                    $rootScope.iflogin=true;
+                    $state.go('feeds');
+                    toaster.pop('success', "logged in");
+                    $('#login').modal('hide');
                 },function(response){
                     $scope.submitInProgress = false;
                     toaster.pop('error', response.data.message);
@@ -218,9 +244,11 @@
 
                 ddtServices.signup(user).then(function(response) {
                     $scope.submitInProgress = false;
+                    $scope.user = {};
                     if (response.status === 200) {
                         toaster.pop('success', 'signed up');
                         $state.go('login');
+                        $('#signup').modal('hide');
                     }else{
                         toaster.pop('error', response.data.message);
                     }
@@ -228,39 +256,96 @@
             }
         };
 
-  $scope.getLocation = function(val) {
-    return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: val,
-        sensor: false
-      }
-    }).then(function(response){
-      return response.data.results.map(function(item){
-        return item.formatted_address;
-      });
-    });
-  };
-
         $scope.searchCompanies = function(str){
 
-            return $http.get('http://aahhostocks.dev:5000/api/v1/companies/filter?q='+str+'&page=1&items=30', {
+            return $http.get(API_ENDPOINT + '/companies/filter?q='+str+'&page=1&items=30', {
                   params: {
-
-                                      }
+                  }
                 }).then(function(response){
                   return response.data.data.map(function(item){
                     return item;
                   });
                 });
-
-
-
         };
 
         $scope.gotopage = function(str){
-
             $state.go('stocks',{code: str.code});
-        }
+        };
+
+
+        $scope.gettrendingCompanies = function(){
+
+            ddtServices.trendingCompanies().then(function(response) {
+                if (response.status === 200) {
+
+                                        $scope.isSubmitInProgress = false;
+                    $scope.trendingCompanies = response.data.data;
+                    $scope.trendingCompanies.forEach(function(entry){
+                        entry.stock.change = Math.abs(entry.stock.close - entry.stock.open);
+                        entry.stock.percentageChange = (100 * entry.stock.change/entry.stock.open).toFixed(2);
+                        entry.stock.change = entry.stock.change.toFixed(2);
+                        entry.stock.isPositive = true;
+                        if(entry.stock.close < entry.stock.open){
+                            entry.stock.isPositive = false;
+                        }
+                    });
+
+                                    }
+            }); 
+        };
+        $scope.gettrendingCompanies();
+
+        $scope.showWatchlist = false;
+        $scope.getWatchlist = function(){
+
+            ddtServices.getWatchlist().then(function(response) {
+                $scope.showWatchlist = true;
+                if (response.status === 200) {
+                    $scope.watchList = response.data.data;
+                    $scope.watchList.forEach(function(entry){
+                        entry.stock.change = Math.abs(entry.stock.close - entry.stock.open);
+                        entry.stock.percentageChange = (100 * entry.stock.change/entry.stock.open).toFixed(2);
+                        entry.stock.change = entry.stock.change.toFixed(2);
+                        entry.stock.isPositive = true;
+                        if(entry.stock.close < entry.stock.open){
+                            entry.stock.isPositive = false;
+                        }
+                    });
+                }
+            });
+        };
+        $scope.getWatchlist();
+
+
+        $scope.addtoWathclist = function(item){
+
+            if($rootScope.userObj && $rootScope.userObj.id){
+
+                ddtServices.addToWatchlist(item.id).then(function(response) {
+                    if (response.status === 200) {
+                    }
+                });
+
+            }else{
+                $('#login').modal('show');
+            }
+        };
+
+        $scope.deleteItemWatchlist = function(id, index){
+
+            if($rootScope.userObj && $rootScope.userObj.id){
+
+                ddtServices.deleteWatchlistItem(id).then(function(response) {
+                    if (response.status === 200) {
+                    }
+                });
+
+            }else{
+                $('#login').modal('show');
+            }
+        };
+
+
 
     }]);
 
@@ -273,7 +358,6 @@
         $scope.getClass = function (path) {
             return ($location.path().substr(0, path.length) === path);
         }
-
         $scope.getRandomVal = function () {
             return parseInt(Math.round((Math.random() * (3 - 1) + 1)));
         }
@@ -313,7 +397,7 @@
                     });
                 }
             }); 
-        }
+        };
         $scope.getCompanies();
 
         var isLoadingFeeds = false;
@@ -334,28 +418,9 @@
             }
         });
 
-        $scope.gettrendingCompanies = function(){
 
-            ddtServices.trendingCompanies().then(function(response) {
-                if (response.status === 200) {
 
-                                        $scope.isSubmitInProgress = false;
-                    $scope.trendingCompanies = response.data.data;
-                    $scope.trendingCompanies.forEach(function(entry){
-                        entry.stock.change = Math.abs(entry.stock.close - entry.stock.open);
-                        entry.stock.percentageChange = (100 * entry.stock.change/entry.stock.open).toFixed(2);
-                        entry.stock.change = entry.stock.change.toFixed(2);
-                        entry.stock.isPositive = true;
-                        if(entry.stock.close < entry.stock.open){
-                            entry.stock.isPositive = false;
-                        }
-                    });
-
-                                    }
-            }); 
-        };
-        $scope.gettrendingCompanies();
-    }]);
+            }]);
 
 
     DDT.controller("stocksController", ['$scope', '$location', '$timeout','ddtServices', '$window', '$stateParams', function ($scope, $location, $timeout, ddtServices, $window, $stateParams) {
@@ -421,10 +486,7 @@
                     $scope.getComments();
             }
         });
-
-
-
-                        $scope.isPostingComment = false;
+            $scope.isPostingComment = false;
             $scope.postComment = function(comment){
 
                 $scope.isPostingComment = true;
@@ -440,7 +502,7 @@
             $scope.replytoComment = function( reply, comment){
 
                 $http({
-                    url: "http://aahhostocks.dev:5000/api/v1/companies/"+$scope.feed.id+'/comments' + comment.id + '/reply',
+                    url: API_ENDPOINT + "/companies/"+$scope.feed.id+'/comments' + comment.id + '/reply',
                     method: "POST",
                     data: {data : reply, reply_to: comment.id}
 
