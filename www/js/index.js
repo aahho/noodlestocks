@@ -188,6 +188,10 @@
                 return false;
         }
 
+        $scope.openSignupModel = function(){
+            $('#signup').modal('show');
+        }
+
         $scope.logout = function(){
             delete $window.localStorage.token;
             delete $window.localStorage.user;
@@ -314,8 +318,13 @@
             event.preventDefault();
             event.stopPropagation();
 
+            var index = $scope.watchList.map(function(e) {
+                return e.id;
+            }).indexOf(item.id);
+
             if($rootScope.userObj && $rootScope.userObj.id){
 
+                if(index === -1)
                 ddtServices.addToWatchlist(item.id).then(function(response) {
                     if (response.status === 200) {
                         $scope.watchList.push(item);

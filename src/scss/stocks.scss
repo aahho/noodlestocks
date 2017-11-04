@@ -135,7 +135,7 @@
  	background: #fff;
  	color: #34445D;
  	padding: 5px;
- 	border-bottom: 1px solid #ccc;
+ 	border-bottom: 1px solid #eee;
  	&:hover{
  		/*color: #34445D;
  		background: #fff;*/
@@ -149,6 +149,11 @@
 	 				color: #34445D;
 	 			}
 	 		}
+	 	}
+	 	.right-side {
+		 	.watch {
+		 		visibility: visible;
+		 	}
 	 	}
  	}
  	.stock-name{
@@ -194,12 +199,26 @@
  		}
  		.watch{
  			cursor: pointer;
- 			background: #2A3990;
-			border-radius: 20px;
-			line-height: 1;
+ 			background: #ff4081;
+		    border-color: #ff4081;
+		    border-radius: 20px;
     		font-size: 14px;
+    		visibility: hidden;
+    		transition-duration: 0s;
 		}
  	}
+ }
+
+ @keyframes fadeInUp {
+  from {
+  	visibility: hidden;
+  	opacity: 0.5;
+  	transform: translateY(20px);
+  } to {
+  	visibility: visible;
+  	opacity: 1;
+  	transform: translateY(0px);
+  }
  }
 
 .stockDetails{
@@ -293,7 +312,7 @@
 .side-bar-box{
 	background: #fff; 
 	padding: 10px 20px 0px 20px;
-	box-shadow: 0 0px 8px 2px rgba(0,0,0,.2);
+	/*box-shadow: 0 0px 8px 2px rgba(0,0,0,.2);*/
 	border-radius: 6px;
 	margin-bottom: 10px;
 	.head{
@@ -312,7 +331,7 @@
 		span{
 		    line-height: 26px;
 			margin-left: 5px;
-			font-size: 24px;
+			font-size: 18px;
 		}
 	}	
 }

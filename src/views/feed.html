@@ -44,7 +44,7 @@
             <!-- <div class="feed-content col-md-8 col-lg-8 col-sm-12" style="height: calc(100vh - 80px);background: #fff;"> -->
             <div class="feed-content col-md-6 col-lg-6 col-sm-12">
                 <div id="feedsList" class="list-group feed-list-group" ng-show="feedsList.length > 0">
-                    <div class="m-list list-group-item stock-item" ng-repeat="feed in feedsList track by $index"style="box-shadow: 0 2px 8px 0 rgba(0,0,0,.2);" ui-sref="stocks({'code': feed.code})">
+                    <div class="m-list list-group-item stock-item" ng-repeat="feed in feedsList track by $index" ui-sref="stocks({'code': feed.code})">
                         <div ng-class="{'value-up': feed.stock.isPositive, 'value-down': !feed.stock.isPositive}" class="left-side">
                             <span class="stock-name">
                                 {{feed.name}}
@@ -61,12 +61,12 @@
                             </div>
                             <small class="" style="margin-left: 5px; font-size: 12px">Updated on {{feed.stock.date}}</small>
                         </div>
-                        <div class="right-side">
+                        <div class="watch-bar right-side">
                             <div class="watchers">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                                 10  Watchers
                             </div>
-                            <button type="button" class="btn btn-primary watch" ng-click="addtoWathclist($event, feed)">Watch</button>
+                            <button type="button" class="btn btn-primary btn-sm pull-right watch" ng-click="addtoWathclist($event, feed)">Watch</button>
                         </div>
                     </div>
                     <div class="row m-list" ng-show="isSubmitInProgress">
@@ -88,16 +88,16 @@
                     <div class="head"> 
                         <i class="fa fa-bar-chart" aria-hidden="true"></i>
                         <span>Latest News</span>
-                        <a class="pull-right" href="/news">View More</a>
+                        <a class="pull-right" style="font-size: 12px;" href="/news">View More</a>
                     </div>
                     <div>
-                        <div title="Novartis Makes a Deal That Should Go Down Easy" style="display: flex;padding: 10px 0px; border-bottom: 1px solid #ccc;">
+                        <div title="Novartis Makes a Deal That Should Go Down Easy" style="display: flex;padding: 10px 0px; border-bottom: 1px solid #eee;">
                             <div class="LatestNewsEvents__thumbnail___hw8JG">
-                                <img height="105" src="http://d39b8uktah50ny.cloudfront.net/attachments/64f3697e40d233b7825536e5fced5ea3655b362b/store/limit/10000/10000/297698b30a39e37fa0fcc197065c023a8a8efeef6ab1da254ddc7cfa522a/31DB-DRUGVIEWS1-facebookJumbo.jpg" width="170" style="    border-radius: 3px">
+                                <img height="50" src="http://d39b8uktah50ny.cloudfront.net/attachments/64f3697e40d233b7825536e5fced5ea3655b362b/store/limit/10000/10000/297698b30a39e37fa0fcc197065c023a8a8efeef6ab1da254ddc7cfa522a/31DB-DRUGVIEWS1-facebookJumbo.jpg" style="border-radius: 3px">
                             </div>
                             <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: space-between; overflow: hidden">
-                                <h3 style="font-size: 16px; font-weight: 700; line-height: 1.12; margin: 0;">{{"NovartisNovartisNovartis Makes a Deal That Sho..." | limitTo: 30 }}</h3>
-                                <p style="    font-size: 12px; margin: 0px;color: #ccc">20 hours ago – nytimes.com</p>
+                                <h3 style="font-size: 12px; font-weight: 500; line-height: 1.12; margin: 0;">{{"NovartisNovartisNovartis Makes a Deal That Sho..." | limitTo: 30 }}</h3>
+                                <p style="    font-size: 10px; margin: 0px;color: #ccc">20 hours ago – nytimes.com</p>
                             </div>
                         </div>
                     </div>
