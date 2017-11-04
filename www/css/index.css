@@ -260,6 +260,10 @@ h1, h2, h3, h4, h5, h6 {
   animation: 0.2s fadeInUp ease-out;
   animation-fill-mode: forwards; }
 
+.stocks-link {
+  color: #4053B0 !important;
+  text-decoration: underline !important; }
+
 .navbar {
   /*background: #2C384C !important;*/
   background: #283593 !important;
@@ -299,6 +303,8 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff; }
     .secondary-navbar .trending-item .value-up, .secondary-navbar .trending-item .value-down {
       padding: 0 2px 2px 4px; }
+    .secondary-navbar .trending-item:hover {
+      background: #3f51b5; }
   .secondary-navbar .stock-item {
     color: #fff;
     background: #3f51b5;
@@ -356,7 +362,7 @@ h1, h2, h3, h4, h5, h6 {
   .stock-item .stock-name {
     font-size: 12px; }
   .stock-item .stock-code {
-    font-size: 24px;
+    font-size: 16px;
     line-height: 1.2; }
     .stock-item .stock-code .code {
       padding-right: 20px; }
@@ -385,11 +391,16 @@ h1, h2, h3, h4, h5, h6 {
       .stock-item .right-side .watchers i {
         color: #34445D; }
     .stock-item .right-side .watch {
-      border-radius: 20px; }
+      cursor: pointer;
+      background: #2A3990;
+      border-radius: 20px;
+      line-height: 1;
+      font-size: 14px; }
 
 .stockDetails {
   font-size: 14px;
-  color: #fff; }
+  color: #fff;
+  padding: 0px 0px 20px; }
   .stockDetails ul {
     list-style: none; }
     .stockDetails ul li {
@@ -409,6 +420,7 @@ h1, h2, h3, h4, h5, h6 {
 .comment_options {
   list-style: none;
   padding: 0px;
+  margin: 0px;
   display: flex; }
   .comment_options li {
     width: 28px;
@@ -464,9 +476,9 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 6px;
   margin-bottom: 10px; }
   .side-bar-box .head {
-    color: #ccc; }
+    color: #888; }
     .side-bar-box .head i {
-      background: #ccc;
+      background: #888;
       width: 28px;
       height: 28px;
       line-height: 18px;
@@ -493,10 +505,14 @@ h1, h2, h3, h4, h5, h6 {
     /* For Safari 3.1 to 6.0 */
     transition: width .4s ease-in;
     border-radius: 20px;
-    width: 50% !important; }
-    .searchbar input:focus {
-      width: 100% !important; }
+    width: 100% !important; }
   .searchbar .search-info {
     color: #777;
     position: absolute;
     right: 30px; }
+
+.search-item {
+  color: #333;
+  padding: 0px 10px; }
+  .search-item:hover {
+    color: #fff !important; }

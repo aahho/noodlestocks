@@ -3,7 +3,7 @@
     var TEMPLATE_URL = "views/";
 
     var DDT = angular.module('duckducktech', [
-            'ui.bootstrap',
+         'ui.bootstrap',
          'ui.router',
          'toaster'
     ]);
@@ -222,8 +222,9 @@
                     $rootScope.userObj = response.data;
                     $rootScope.iflogin=true;
                     $state.go('feeds');
-                    toaster.pop('success', "logged in");
+                    $scope.getWatchlist();
                     $('#login').modal('hide');
+                    toaster.pop('success', "logged in");
                 },function(response){
                     $scope.submitInProgress = false;
                     toaster.pop('error', response.data.message);
@@ -314,15 +315,21 @@
                 }
             });
         };
-        $scope.getWatchlist();
+
+        if($rootScope.userObj && $rootScope.userObj.id)
+            $scope.getWatchlist();
 
 
-        $scope.addtoWathclist = function(item){
+        $scope.addtoWathclist = function(event, item){
+
+            event.preventDefault();
+            event.stopPropagation();
 
             if($rootScope.userObj && $rootScope.userObj.id){
 
                 ddtServices.addToWatchlist(item.id).then(function(response) {
                     if (response.status === 200) {
+                        $scope.watchList.push(item);
                     }
                 });
 
@@ -337,6 +344,7 @@
 
                 ddtServices.deleteWatchlistItem(id).then(function(response) {
                     if (response.status === 200) {
+                        $scope.watchList.splice(index, 1);
                     }
                 });
 
@@ -344,9 +352,6 @@
                 $('#login').modal('show');
             }
         };
-
-
-
     }]);
 
     DDT.controller("feedController", ['$scope', '$location', '$timeout','ddtServices', '$window', function ($scope, $location, $timeout, ddtServices, $window) {

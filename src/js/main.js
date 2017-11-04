@@ -3,7 +3,7 @@
     var TEMPLATE_URL = "views/";
 
     var DDT = angular.module('duckducktech', [
-            'ui.bootstrap',
+         'ui.bootstrap',
          'ui.router',
          'toaster'
         //'ngRoute'
@@ -267,8 +267,9 @@
                     $rootScope.userObj = response.data;
                     $rootScope.iflogin=true;
                     $state.go('feeds');
-                    toaster.pop('success', "logged in");
+                    $scope.getWatchlist();
                     $('#login').modal('hide');
+                    toaster.pop('success', "logged in");
                 },function(response){
                     $scope.submitInProgress = false;
                     toaster.pop('error', response.data.message);
@@ -359,26 +360,22 @@
                 }
             });
         };
-        $scope.getWatchlist();
+
+        if($rootScope.userObj && $rootScope.userObj.id)
+            $scope.getWatchlist();
 
 
         //watchList
-        $scope.addtoWathclist = function(item){
+        $scope.addtoWathclist = function(event, item){
+
+            event.preventDefault();
+            event.stopPropagation();
 
             if($rootScope.userObj && $rootScope.userObj.id){
 
                 ddtServices.addToWatchlist(item.id).then(function(response) {
                     if (response.status === 200) {
-                        // $scope.watchList = response.data.data;
-                        // $scope.watchList.forEach(function(entry){
-                        //     entry.stock.change = Math.abs(entry.stock.close - entry.stock.open);
-                        //     entry.stock.percentageChange = (100 * entry.stock.change/entry.stock.open).toFixed(2);
-                        //     entry.stock.change = entry.stock.change.toFixed(2);
-                        //     entry.stock.isPositive = true;
-                        //     if(entry.stock.close < entry.stock.open){
-                        //         entry.stock.isPositive = false;
-                        //     }
-                        // });
+                        $scope.watchList.push(item);
                     }
                 });
 
@@ -393,16 +390,7 @@
 
                 ddtServices.deleteWatchlistItem(id).then(function(response) {
                     if (response.status === 200) {
-                        // $scope.watchList = response.data.data;
-                        // $scope.watchList.forEach(function(entry){
-                        //     entry.stock.change = Math.abs(entry.stock.close - entry.stock.open);
-                        //     entry.stock.percentageChange = (100 * entry.stock.change/entry.stock.open).toFixed(2);
-                        //     entry.stock.change = entry.stock.change.toFixed(2);
-                        //     entry.stock.isPositive = true;
-                        //     if(entry.stock.close < entry.stock.open){
-                        //         entry.stock.isPositive = false;
-                        //     }
-                        // });
+                        $scope.watchList.splice(index, 1);
                     }
                 });
 
@@ -410,9 +398,6 @@
                 $('#login').modal('show');
             }
         };
-
-
-
     }]);
 
     DDT.controller("feedController", ['$scope', '$location', '$timeout','ddtServices', '$window', function ($scope, $location, $timeout, ddtServices, $window) {

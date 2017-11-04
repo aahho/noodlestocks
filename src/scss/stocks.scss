@@ -1,3 +1,7 @@
+.stocks-link{
+	color: #4053B0 !important;
+    text-decoration: underline !important;
+}
 .navbar{
 	/*background: #2C384C !important;*/
 	background: #283593 !important;
@@ -44,6 +48,9 @@
  		color: #fff;
  		.value-up, .value-down{
 	 		padding: 0 2px 2px 4px;
+	 	}
+	 	&:hover{
+	 		background: #3f51b5;
 	 	}
  	}
  	.stock-item{
@@ -131,7 +138,7 @@
  		font-size: 12px;
  	}
  	.stock-code{
-		font-size: 24px;
+		font-size: 16px;
     	line-height: 1.2;
  		.code{
  		 	padding-right: 20px;
@@ -169,7 +176,11 @@
  			}
  		}
  		.watch{
+ 			cursor: pointer;
+ 			background: #2A3990;
 			border-radius: 20px;
+			line-height: 1;
+    		font-size: 14px;
 		}
  	}
  }
@@ -177,6 +188,7 @@
 .stockDetails{
 	font-size: 14px;
 	color: #fff;
+	padding: 0px 0px 20px;
 	ul{
 		list-style: none;
 		li{
@@ -201,6 +213,7 @@
 .comment_options{
 	list-style: none;
 	padding: 0px;
+	margin: 0px;
    	display: flex;
 	li{
 		width: 28px;
@@ -267,9 +280,9 @@
 	border-radius: 6px;
 	margin-bottom: 10px;
 	.head{
-		color: #ccc;
+		color: #888;
 		i{
-			background: #ccc;
+			background: #888;
 			width: 28px;
 			height: 28px;
 			line-height: 18px;
@@ -299,14 +312,18 @@
 		-webkit-transition: width .4s; /* For Safari 3.1 to 6.0 */
     	transition: width .4s ease-in;
     	border-radius: 20px;
-		width: 50% !important;
-		&:focus{
-			width: 100% !important;
-		}
+		width : 100% !important;
 	}
 	.search-info{
 		color: #777;
 		position: absolute;
 		right: 30px;
+	}
+}
+.search-item{
+	color: #333;
+	padding: 0px 10px;
+	&:hover{
+		color: #fff !important;
 	}
 }

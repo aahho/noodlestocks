@@ -37,7 +37,7 @@
                             <i class="fa fa-users" aria-hidden="true"></i>
                             10  Watchers
                         </div>
-                        <button type="button" class="btn btn-danger watch">Watch</button>
+                        <button type="button" class="btn btn-primary watch">Watch</button>
                     </div>
                 </div>
             </div>
@@ -59,61 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="side-bar-box" ng-show="trendingCompanies.length>0">
-                    <div class="row head"> 
-                        <i class="fa fa-line-chart" aria-hidden="true"></i>
-                        <span>Trending</span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 trending-item" ng-repeat="item in trendingCompanies" title="{{item.name}}" ui-sref="profile({'code': item.code})">
-                            <div ng-class="{'value-up': item.stock.isPositive, 'value-down': !item.stock.isPositive}" ui-sref="stocks({'code': item.code})">
-                                <div class="stock-code">
-                                    <span class="code">{{item.code}}</span>
-                                    <span class="current">{{item.stock.close}}</span>
-                                    <span style="float: right">{{item.stock.change}}&nbsp;({{item.stock.percentageChange}}&nbsp;%)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="side-bar-box" ng-show="trendingCompanies.length>0">
-                    <div class="row head"> 
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Watchlist</span>
-                    </div>
-                    <div class="row">
-                        <p ng-if="!$root.userObj.name">
-                            Sign up with NoodleStocks to have watchlist for easy access to your favorite stocks
-                        </p>
-                        <div ng-if="$root.userObj.name" class="col-md-12 col-sm-12 trending-item" ng-repeat="item in trendingCompanies" title="{{item.name}}" ui-sref="stocks({'code': item.code})">
-                            <div ng-class="{'value-up': item.stock.isPositive, 'value-down': !item.stock.isPositive}">
-                                <div class="stock-code">
-                                    <span class="code">{{item.code}}</span>
-                                    <span class="current">{{item.stock.close}}</span>
-                                    <span style="float: right">{{item.stock.change}}&nbsp;({{item.stock.percentageChange}}&nbsp;%)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="side-bar-box" style="padding: 10px">
-                    <div class="head"> 
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                        <span>Latest News</span>
-                        <a class="pull-right" href="/news">View More</a>
-                    </div>
-                    <div>
-                        <div title="Novartis Makes a Deal That Should Go Down Easy" style="display: flex;padding: 10px 0px; border-bottom: 1px solid #ccc;">
-                            <div class="LatestNewsEvents__thumbnail___hw8JG">
-                                <img height="105" src="http://d39b8uktah50ny.cloudfront.net/attachments/64f3697e40d233b7825536e5fced5ea3655b362b/store/limit/10000/10000/297698b30a39e37fa0fcc197065c023a8a8efeef6ab1da254ddc7cfa522a/31DB-DRUGVIEWS1-facebookJumbo.jpg" width="170" style="    border-radius: 3px">
-                            </div>
-                            <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: space-between; overflow: hidden">
-                                <h3 style="font-size: 16px; font-weight: 700; line-height: 1.12; margin: 0;">{{"NovartisNovartisNovartis Makes a Deal That Sho..." | limitTo: 30 }}</h3>
-                                <p style="    font-size: 12px; margin: 0px;color: #ccc">20 hours ago – nytimes.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div ng-include="'/views/left-side.html'"></div>
             </div>    
             <div class="feed-content col-md-6 col-lg-6 col-sm-12">
                 <div id="feedsList" class="list-group feed-list-group" ng-show="feed" style="margin: 34px 0px 40px;">
@@ -139,7 +85,7 @@
                                 <i class="fa fa-users" aria-hidden="true"></i>
                                 10 Watchers
                             </div>
-                            <button type="button" class="btn btn-danger watch" ng-click="addtoWathclist(feed)">Watch</button>
+                            <button type="button" class="btn btn-primary watch" ng-click="addtoWathclist($event, feed)">Watch</button>
                         </div>
                     </div>
                 </div>
@@ -172,9 +118,9 @@
                         <a  ui-sref="profile({'code': comment.user.id})" style="color: #283593; font-size: 16px">{{comment.user.name}}</a>
                         <small title="{{comment.commentedAt}}" style="font-size: 12px; color: #777;">{{comment.commentedAt | momentDate}}</small>
                     </div>
-                    <span>
+                    <small>
                         {{comment.data}}
-                    </span>
+                    </small>
                     <ul class="comment_options">
                         <li>
                             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
