@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3 col-lg-3 col-sm-12">
             <div class="row" style="padding-top: 30px">
-                <div class="col-md col-sm trending-item" ng-repeat="item in trendingCompanies | limitTo: 3" title="{{item.name}}" ui-sref="profile({'code': item.code})">
+                <div class="col-md col-sm trending-item" ng-repeat="item in trendingCompanies | limitTo: 2" title="{{item.name}}" ui-sref="profile({'code': item.code})">
                     <div ng-class="{'value-up': item.stock.isPositive, 'value-down': !item.stock.isPositive}" ui-sref="stocks({'code': item.code})">
                         <div class="stock-code">
                             <span class="code">{{item.code}}</span>
@@ -48,21 +48,10 @@
     <div style="padding: 20px 10px">
         <div class="row" style="margin: 0px">
             <div class="col-md-3 col-lg-3 col-sm-12">
-                <div class="row" style="padding: 60px 10px" ng-show="trendingCompanies.length>0">
-                    <div class="col-md col-sm trending-item" ng-repeat="item in trendingCompanies | limitTo: 2" title="{{item.name}}" ui-sref="profile({'code': item.code})" style="background: none;color:#fff">
-                        <div ng-class="{'value-up': item.stock.isPositive, 'value-down': !item.stock.isPositive}" ui-sref="stocks({'code': item.code})" style="padding: 0 4px 2px 5px;">
-                            <div class="stock-code">
-                                <span class="code">{{item.code}}</span>
-                                <br>
-                                <span>{{item.stock.change}}&nbsp;({{item.stock.percentageChange}}&nbsp;%)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div ng-include="'/views/left-side.html'"></div>
             </div>    
             <div class="feed-content col-md-6 col-lg-6 col-sm-12">
-                <div id="feedsList" class="list-group feed-list-group" ng-show="feed" style="margin: 34px 0px 40px;">
+                <div id="feedsList" class="list-group feed-list-group" ng-show="feed" style="margin: 0px 0px 20px;">
                     <div class="list-group-item stock-item" style="box-shadow: 0 0px 10px 0px rgba(0,0,0,0.4);border-radius: 6px;">
                         <div ng-class="{'value-up': feed.stock.isPositive, 'value-down': !feed.stock.isPositive}" class="left-side">
                             <span class="stock-name">
@@ -158,24 +147,8 @@
                             <span>Open</span>
                             <span>{{feed.stock.open}}</span>
                         </li>
-                        <li>
-                            <span>Low</span>
-                            <span>{{feed.stock.low}}</span>
-                        </li>
-                        <li>
-                            <span>High</span>
-                            <span>{{feed.stock.high}}</span>
-                        </li>
                     </ul>
                     <ul class="col-md-6 col-lg-6 col-sm-6">
-                        <li>
-                            <span>Prev Close</span>
-                            <span>{{feed.stock.last}}</span>
-                        </li>
-                        <li>
-                            <span>Open</span>
-                            <span>{{feed.stock.open}}</span>
-                        </li>
                         <li>
                             <span>Low</span>
                             <span>{{feed.stock.low}}</span>

@@ -289,7 +289,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #3f51b5;
   /*background-color: #34445D;*/
   content: "";
-  height: 160px;
+  height: 120px;
   position: absolute;
   width: 100%; }
 
@@ -400,7 +400,7 @@ h1, h2, h3, h4, h5, h6 {
 .stockDetails {
   font-size: 14px;
   color: #fff;
-  padding: 0px 0px 20px; }
+  padding: 0px 0px 25px; }
   .stockDetails ul {
     list-style: none; }
     .stockDetails ul li {
