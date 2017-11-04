@@ -16,7 +16,7 @@
         API_ENDPOINT = "http://noodlestock.com:5000/api/v1";
     }
 
-    DDT.config(["$compileProvider", "$stateProvider", "$locationProvider", '$httpProvider', function ($compileProvider, $stateProvider, $locationProvider, $httpProvider) {
+    DDT.config(["$compileProvider", "$stateProvider", "$locationProvider", '$httpProvider', '$urlRouterProvider', function ($compileProvider, $stateProvider, $locationProvider, $httpProvider, $urlRouterProvider) {
         $locationProvider.html5Mode(true);
 
         $httpProvider.interceptors.push('authInterceptor');
@@ -27,26 +27,8 @@
 
 
         $stateProvider
-        .state("login",{
-            url: '/login',
-            templateUrl: TEMPLATE_URL + 'login.html',
-            onEnter: ["$rootScope", "$state", function ($rootScope, $state) {
 
-                                        if($rootScope.iflogin){
-                    $state.go("feeds");
-                }
-            }]
-        })
-        .state("signup", {
-            url: '/signup',
-            templateUrl: TEMPLATE_URL + 'signup.html',
-            onEnter: ["$rootScope", '$state', function ($rootScope, $state) {
 
-                                        if($rootScope.iflogin){
-                    $state.go("feeds");
-                }
-            }]
-        })
         .state("feeds",{
             url: '/',
             templateUrl: TEMPLATE_URL + 'feed.html',
@@ -56,11 +38,11 @@
             url: '/s/:code',
             templateUrl: TEMPLATE_URL + 'stocks.html',
             controller: 'stocksController'
-        })
-        .state("profile", {
-            url: '/:code',
-            templateUrl: TEMPLATE_URL + 'profile.html',
-            controller: 'profileController'
+        });
+
+        $urlRouterProvider.otherwise(function ($injector) {
+            var $state = $injector.get("$state");
+            $state.go('feeds');
         });
     }]);
 
@@ -197,6 +179,13 @@
         if($window.localStorage.token){
             $rootScope.iflogin = true; 
             $rootScope.userObj = JSON.parse($window.localStorage.user);
+        }
+
+        $scope.isHomepage = function(){
+            if($state.current.name == 'feeds')
+                return true;
+            else
+                return false;
         }
 
         $scope.logout = function(){
@@ -354,7 +343,7 @@
         };
     }]);
 
-    DDT.controller("feedController", ['$scope', '$location', '$timeout','ddtServices', '$window', function ($scope, $location, $timeout, ddtServices, $window) {
+    DDT.controller("feedController", ['$scope', '$location', '$timeout','ddtServices', '$window', '$rootScope', function ($scope, $location, $timeout, ddtServices, $window, $rootScope) {
 
                 $scope.feedsList = [];
         $scope.feedsListPagination = {};
@@ -407,12 +396,12 @@
 
         var isLoadingFeeds = false;
 
-        $scope.showSecondaryNavbar = false;
+        $rootScope.showSecondaryNavbar = false;
         angular.element($window).bind("scroll", function() {
             if($(this).scrollTop() > 180)
-                $scope.showSecondaryNavbar = true;
+                $rootScope.showSecondaryNavbar = true;
             else
-                $scope.showSecondaryNavbar = false;
+                $rootScope.showSecondaryNavbar = false;
             $scope.$apply();
 
 
@@ -428,7 +417,7 @@
             }]);
 
 
-    DDT.controller("stocksController", ['$scope', '$location', '$timeout','ddtServices', '$window', '$stateParams', function ($scope, $location, $timeout, ddtServices, $window, $stateParams) {
+    DDT.controller("stocksController", ['$scope', '$location', '$timeout','ddtServices', '$window', '$stateParams', '$rootScope', function ($scope, $location, $timeout, ddtServices, $window, $stateParams, $rootScope) {
 
                 $scope.paginate = {
             "items": 100,
@@ -477,12 +466,12 @@
             }); 
         };
 
-        $scope.showSecondaryNavbar = false;
+        $rootScope.showSecondaryNavbar = false;
         angular.element($window).bind("scroll", function() {
             if($(this).scrollTop() > 180)
-                $scope.showSecondaryNavbar = true;
+                $rootScope.showSecondaryNavbar = true;
             else
-                $scope.showSecondaryNavbar = false;
+                $rootScope.showSecondaryNavbar = false;
             $scope.$apply();
 
 

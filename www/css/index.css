@@ -260,6 +260,18 @@ h1, h2, h3, h4, h5, h6 {
   animation: 0.2s fadeInUp ease-out;
   animation-fill-mode: forwards; }
 
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide {
+  display: none !important; }
+
+.nav-link {
+  cursor: pointer; }
+
 .stocks-link {
   color: #4053B0 !important;
   text-decoration: underline !important; }
@@ -292,6 +304,10 @@ h1, h2, h3, h4, h5, h6 {
   height: 120px;
   position: absolute;
   width: 100%; }
+
+@media (min-width: 768px) {
+  .secondary-navbar {
+    display: none; } }
 
 .secondary-navbar {
   width: 100%;
