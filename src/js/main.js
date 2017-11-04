@@ -548,7 +548,8 @@
                 ddtServices.postComment($scope.feed.id, comment).then(function(response) {
                     $scope.isPostingComment = false;
                     if (response.status === 200) {
-                        $scope.comments.push(response.data);
+                        $scope.comments.splice(0, 0, response.data);
+                        //$scope.comments.push(response.data);
                         $scope.comment.data = '';
                     }
                 });
