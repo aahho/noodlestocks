@@ -40,11 +40,10 @@
                     <a class="nav-link" data-toggle="modal"  data-target="#signup">Signup</a>
                   </li>
                   <li ng-show="iflogin" class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {{$root.userObj.name}}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-bind-html="$root.userObj.name | trustedHtml">
                     </a>
                     <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" ng-click="logout()">Logout</a>
+                      <a class="dropdown-item" ng-click="logout()" style="color: #283593;">Logout</a>
                     </div>
                   </li>
                 </ul>

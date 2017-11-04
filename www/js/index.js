@@ -495,6 +495,7 @@
             $scope.postComment = function(comment){
 
                 $scope.isPostingComment = true;
+                comment.type = 'text';
                 ddtServices.postComment($scope.feed.id, comment).then(function(response) {
                     $scope.isPostingComment = false;
                     if (response.status === 200) {
@@ -582,6 +583,19 @@
             return moment(item).format("llll");
         }
     }]);
+
+    DDT.filter('trusted', ['$sce', function ($sce) {
+        return function(url) {
+            return $sce.trustAsResourceUrl(url);
+        };
+    }]);
+
+    DDT.filter('trustedHtml', ['$sce', function ($sce) {
+        return function (text) {
+            return $sce.trustAsHtml(text);
+        }
+    }]);
+
 
     DDT.directive('lazyLoadImage',[function () {
         return {
