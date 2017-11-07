@@ -101,13 +101,18 @@
                       <div class="media-body">
                         <div class="mt-0">{{$root.userObj.name}}</div>
                         <div>
-                            <textarea ng-disabled="isPostingComment" class="textarea" ng-model="comment.data" task-comment-post comment-add="postComment" placeholder="Comment here.." style="margin: 0px;resize: none; width: 100%"/>
+                            <textarea ng-disabled="isPostingComment" class="textarea" ng-model="comment.comment" task-comment-post comment-add="postComment" placeholder="Comment here.." style="margin: 0px;resize: none; width: 100%"/>
                             <div style="display: flex; justify-content: space-between">
                                 <small>Enter a comment (Press Enter to post)</small>
-                                <button class="btn btn-secondary" ng-disabled="isPostingComment" ng-click="postComment(comment)">Post</button>
-
+                                <div style="display: flex;">
+                                    <div ng-if="!isUploading" ngf-select="uploadDocument($files,0)" file-type="*" style="margin: 0px 10px; font-size: 26px; cursor: pointer;">
+                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    </div>
+                                    <button class="btn btn-secondary" ng-disabled="isPostingComment" ng-click="postComment(comment)">Post</button>
+                                </div>
                             </div>
                         </div>
+                        <img ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}" style="height: auto; max-height: 200px; max-width: 100%" />
                       </div>
                     </div>
                 </form>
@@ -126,16 +131,20 @@
                       </div>
                     </div>
                 </form>
-                <div class="media comment" ng-repeat="comment in comments">
+
+                                <div class="media comment" ng-repeat="comment in comments">
                   <img class="mr-3 comment-avatar" src="/img/logo.png"/>
-                  <div class="media-body">
+                  <div class="media-body" style="width: calc(100% - 50px); word-wrap: break-word;">
                     <div class="mt-0">
                         <a  ui-sref="profile({'code': comment.user.id})" style="color: #283593; font-size: 16px">{{comment.user.name}}</a>
                         <small title="{{comment.commentedAt}}" style="font-size: 12px; color: #777;">{{comment.commentedAt | momentDate}}</small>
                     </div>
                     <small>
-                        {{comment.data}}
+                        {{comment.comment}}
                     </small>
+                    <div ng-if="comment.data">
+                        <img  ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}" style="height: auto; max-height: 200px; max-width: 100%"/>
+                    </div>
                     <ul class="comment_options">
                         <li>
                             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>

@@ -35,7 +35,10 @@ function vendor() {
         gulpPaths.bc + 'angular/angular.min.js',
         gulpPaths.bc + 'angular-ui-router/release/angular-ui-router.min.js',
         gulpPaths.bc + 'angular-bootstrap/ui-bootstrap-tpls.js',
-        gulpPaths.bc + 'AngularJS-Toaster/toaster.js'
+        gulpPaths.bc + 'AngularJS-Toaster/toaster.js',
+        gulpPaths.bc + 'angular-img-fallback/angular.dcb-img-fallback.js',
+        //gulpPaths.bc + 'ng-file-upload/ng-file-upload-shim.min.js',
+        gulpPaths.bc + 'ng-file-upload/ng-file-upload.min.js'
         //gulpPaths.bc + 'ui.bootstrap/toaster.js'
         //gulpPaths.bc + 'angular-route/angular-route.min.js'
     ])

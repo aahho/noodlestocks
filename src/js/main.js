@@ -5,11 +5,14 @@
     var DDT = angular.module('duckducktech', [
          'ui.bootstrap',
          'ui.router',
-         'toaster'
+         'toaster',
+         'ngFileUpload',
+         'dcbImgFallback'
         //'ngRoute'
     ]);
 
     var API_ENDPOINT = "http://aahhostocks.dev:5000/api/v1";
+    var UPLOAD_ENDPOINT = "http://139.59.42.80/service/s3/upload?app=noodlestock";
 
     var getTld = location.hostname.split('.').reverse()[0];
 
@@ -143,7 +146,7 @@
         };
     }]);
 
-    DDT.factory("ddtServices", ["$http", "$q", function ($http, $q) {
+    DDT.factory("ddtServices", ["$http", "$q", "$rootScope", "Upload", function ($http, $q, $rootScope, Upload) {
 
         
 
@@ -235,10 +238,34 @@
                 var URL = API_ENDPOINT + '/companies/' + id + '/watchlist';
                 var METHOD = 'DELETE';
                 return ajaxCall(URL, METHOD, data);
+            },
+            uploadImage: function(files) {
+                console.log("inside upload service", files);
+                var deferred = $q.defer(),
+                    uploadFn = null;
+                for (var i = 0; i < files.length; i++) {
+                    if ($rootScope.fileSizeAlert(files[i])) {
+                        deferred.resolve('');
+                    } else {
+                        var file = files[i];
+                        //uploadFn = 
+                        Upload.upload({
+                            url: UPLOAD_ENDPOINT,
+                            file: file,
+                            fileFormDataName: 'files[]'
+                        }).success(function(data, status, headers, config) {
+                            console.log("upload success", data);
+                            deferred.resolve(data)
+                        }).error(function(data, status, headers, config) {
+                            console.log("upload error", data);
+                            deferred.resolve(data)
+                        });
+                    }
+                }
+                return deferred.promise;
             }
         }
     }]);
-
 
     DDT.controller('baseController',['$scope','$rootScope', 'ddtServices', '$window', 'toaster', '$state', '$http', function ($scope, $rootScope, ddtServices, $window, toaster, $state, $http) {
         
@@ -419,6 +446,23 @@
                 $('#login').modal('show');
             }
         };
+
+        //File size alert - need to be moved out of here
+        $rootScope.fileSizeAlert = function(file){
+            var defaultMinSize = 0 *1024; //Min size 10KB
+            var defaultMaxSize = 50 *1024 *1024; //Max size 10MB
+
+            if (defaultMaxSize < file.size || file.size < defaultMinSize) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('File size should be between 10KB-50MB.')
+                        .hideDelay(4000)
+                );
+                return true;
+            }
+            return false;
+        };
+
     }]);
 
     DDT.controller("feedController", ['$scope', '$location', '$timeout','ddtServices', '$window', '$rootScope', function ($scope, $location, $timeout, ddtServices, $window, $rootScope) {
@@ -561,37 +605,68 @@
                     $scope.getComments();
             }
         });
-            $scope.isPostingComment = false;
-            $scope.postComment = function(comment){
 
-                $scope.isPostingComment = true;
+        $scope.isPostingComment = false;
+        $scope.postComment = function(comment){
+
+            $scope.isPostingComment = true;
+            if(!$scope.comment.type)
                 comment.type = 'text';
-                ddtServices.postComment($scope.feed.id, comment).then(function(response) {
-                    $scope.isPostingComment = false;
-                    if (response.status === 200) {
-                        $scope.comments.splice(0, 0, response.data);
-                        //$scope.comments.push(response.data);
-                        $scope.comment.data = '';
-                    }
-                });
+
+            ddtServices.postComment($scope.feed.id, comment).then(function(response) {
+                $scope.isPostingComment = false;
+                if (response.status === 200) {
+                    $scope.comments.splice(0, 0, response.data);
+                    $scope.comment = {
+                        comment: ''
+                    };
+                }
+            });
+        };
+
+        $scope.comment = {
+            comment: ''
+        };
+        
+        $scope.isUploading = false;
+        $scope.uploadDocument = function(file, index) {
+            var uploadedBy = {
+                id: $rootScope.userObj.id,
+                name: $rootScope.userObj.displayName,
+                email: $rootScope.userObj.email,
+                date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+            };
+            if (file && file.length) {
+                $scope.isUploading = true;
+                $scope.uploadIndex = index;
+                ddtServices.uploadImage(file).then(function(data) {
+                    $scope.isUploading = false;
+                    console.log("upload response", data);
+                    $scope.comment.type = 'attachment';
+                    $scope.comment.data = data.data[0];
+                }, function(reject) {
+                    $scope.isUploading = false;
+                    $scope.uploadIndex = -1;
+                    $mdToast.show($mdToast.simple().textContent(reject.data.notification.message));
+                })
             }
+        };
 
-            $scope.replytoComment = function( reply, comment){
+        $scope.replytoComment = function( reply, comment){
 
-                $http({
-                    url: API_ENDPOINT + "/companies/"+$scope.feed.id+'/comments' + comment.id + '/reply',
-                    method: "POST",
-                    data: {data : reply, reply_to: comment.id}
+            $http({
+                url: API_ENDPOINT + "/companies/"+$scope.feed.id+'/comments' + comment.id + '/reply',
+                method: "POST",
+                data: {data : reply, reply_to: comment.id}
 
-                }).then(function (response) {
+            }).then(function (response) {
 
-                    $scope.comment.reply.push(response.data);
-                    
-                },function (error) {
-                    
-                });
-
-            }
+                $scope.comment.reply.push(response.data);
+                
+            },function (error) {
+                
+            });
+        };
 
         $scope.gettrendingCompanies = function(){
 
@@ -744,3 +819,7 @@
         }
     }])
 }(window, angular));
+
+
+
+
