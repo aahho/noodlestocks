@@ -286,6 +286,12 @@
     		border: 2px solid #fff;
     	}
     }
+    .comment-img{
+    	height: auto;
+    	max-height: 200px;
+    	max-width: 100%;
+    	border: 1px solid #ccc;
+    }
 }
 
 .box-comment{
@@ -298,6 +304,12 @@
 	.comment-avatar{
 		border: 2px solid #fff;
 	}
+	.comment-img{
+    	height: auto;
+    	max-height: 200px;
+    	max-width: 100%;
+    	border: 1px solid #ccc;
+    }
 }
 
 .comment-avatar{

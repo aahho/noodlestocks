@@ -554,8 +554,9 @@
             comment: ''
         };
 
-                $scope.isUploading = false;
+        $scope.isUploading = false;
         $scope.uploadDocument = function(file, index) {
+
             var uploadedBy = {
                 id: $rootScope.userObj.id,
                 name: $rootScope.userObj.displayName,
@@ -609,8 +610,7 @@
                             entry.stock.isPositive = false;
                         }
                     });
-
-                                    }
+                }
             }); 
         };
         $scope.gettrendingCompanies();

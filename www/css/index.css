@@ -481,6 +481,11 @@ h1, h2, h3, h4, h5, h6 {
     background: #efefef; }
     .comment:hover .comment-avatar {
       border: 2px solid #fff; }
+  .comment .comment-img {
+    height: auto;
+    max-height: 200px;
+    max-width: 100%;
+    border: 1px solid #ccc; }
 
 .box-comment {
   padding: 10px;
@@ -491,6 +496,11 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px; }
   .box-comment .comment-avatar {
     border: 2px solid #fff; }
+  .box-comment .comment-img {
+    height: auto;
+    max-height: 200px;
+    max-width: 100%;
+    border: 1px solid #ccc; }
 
 .comment-avatar {
   width: 36px;

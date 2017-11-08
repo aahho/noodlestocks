@@ -95,7 +95,7 @@
                 <div class="fill-screen" ng-show="!feed && !isSubmitInProgress" style="height: 100px">
                     <h5 class="absolute-center no-feeds">No Stock info found :(</h5>
                 </div>
-                <form ng-show="$root.userObj.name && feed" name="commentform">
+                <form ng-if="$root.userObj.id && feed" name="commentform">
                     <div class="media box-comment">
                       <img class="mr-3 comment-avatar" src="/img/logo.png">
                       <div class="media-body">
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}" style="height: auto; max-height: 200px; max-width: 100%" />
+                        <img class="comment-img" ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}" />
                       </div>
                     </div>
                 </form>
@@ -143,7 +143,7 @@
                         {{comment.comment}}
                     </small>
                     <div ng-if="comment.data">
-                        <img  ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}" style="height: auto; max-height: 200px; max-width: 100%"/>
+                        <img class="comment-img" ng-if="comment.data" ng-src="{{comment.data.webViewLinks.medium}}" fallback-src="{{comment.data.selfLink}}"/>
                     </div>
                     <ul class="comment_options">
                         <li>
