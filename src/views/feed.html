@@ -69,17 +69,17 @@
                             <button type="button" class="btn btn-primary btn-sm pull-right watch" ng-click="addtoWathclist($event, feed)">Watch</button>
                         </div>
                     </div>
-                    <div class="row m-list" ng-show="isSubmitInProgress">
+                    <div class="row m-list" ng-show="isSubmitInProgress" style="height: 100px">
                         <div class="loader-30 loader-1 absolute-center"></div>
                     </div>
                     <div class="row m-list mx-auto" ng-show="!isSubmitInProgress && !disableInfiniteScroll">
                         <button type="button" ng-click="getCompanies()" class="btn btn-secondary mx-auto">load more..</button>
                     </div>
                 </div>
-                <div class="fill-screen" ng-show="feedsList.length === 0 && isSubmitInProgress">
+                <div class="fill-screen" ng-show="feedsList.length === 0 && isSubmitInProgress" style="height: 100px">
                     <div class="loader-48 loader-1 absolute-center"></div>
                 </div>
-                <div class="fill-screen" ng-show="feedsList.length === 0 && !isSubmitInProgress">
+                <div class="fill-screen" ng-show="feedsList.length === 0 && !isSubmitInProgress" style="height: 100px">
                     <h5 class="absolute-center no-feeds">No Feeds :(</h5>
                 </div>
             </div>
